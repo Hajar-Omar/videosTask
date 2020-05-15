@@ -1,6 +1,6 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { merge, of as observableOf } from 'rxjs';
+import { merge, of as observableOf, Subscription } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Item } from 'src/app/shared/interfaces/videosList';
 import { VideosService } from 'src/app/shared/services/videos/videos.service';
@@ -10,7 +10,7 @@ import { VideosService } from 'src/app/shared/services/videos/videos.service';
   templateUrl: './videos-list.component.html',
   styleUrls: ['./videos-list.component.scss']
 })
-export class VideosListComponent implements AfterViewInit {
+export class VideosListComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -24,8 +24,9 @@ export class VideosListComponent implements AfterViewInit {
   nextPageToken: string;
   prevPageToken: string;
   pageToken: string = ''
-
   keyword: string = ''
+
+  subscriptionVideosList: Subscription;
 
   constructor(private videosService: VideosService) { }
 
@@ -33,10 +34,13 @@ export class VideosListComponent implements AfterViewInit {
     this.LoadVideosList()
   }
 
+  /**
+  *@description load videos list related to specific channel
+  */
   LoadVideosList() {
     this.isLoadingResults = true;
     setTimeout(() => {
-      merge(this.sort.sortChange)
+      this.subscriptionVideosList = merge(this.sort.sortChange)
         .pipe(
           startWith({}),
           switchMap(() => {
@@ -61,5 +65,9 @@ export class VideosListComponent implements AfterViewInit {
           this.data = data
         });
     }, 500)
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionVideosList.unsubscribe();
   }
 }

@@ -29,6 +29,7 @@ $videosTask-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($videosTask-theme);
 @import "~ngx-bar-rating/themes/br-default-theme.css";
+@import "./assets/scss/global.scss";
 /* You can add global styles to this file, and also import other style files */
 
 html,

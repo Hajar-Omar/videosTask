@@ -5,8 +5,7 @@
         <button mat-raised-button>Add to favourite</button>
     </div>
     <div class="col-12 d-flex justify-content-between">
-        <span>{{cssRate}}</span>
-        <p class="d-flex">Rate Now <bar-rating [(rate)]="cssRate" [max]="5"></bar-rating>
+        <p class="d-flex">Rate Now <bar-rating [(rate)]="rate" [max]="5"></bar-rating>
         </p>
         <p>Duration: {{ duration | slice:2}}</p>
         <div>

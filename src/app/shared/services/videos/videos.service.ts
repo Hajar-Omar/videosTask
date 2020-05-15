@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IVideosList } from '../../interfaces/videosList';
 import { environment } from 'src/environments/environment';
+import { shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class VideosService {
   */
   getVideosList(sortActive: string, pageToken: string = '', query: string = ''): Observable<IVideosList> {
     return this.httpClient.get<IVideosList>
-      (`${environment.BaseUrl}search?part=snippet&maxResults=10&order=${sortActive}&q=${query}&pageToken=${pageToken}&channel_id=${environment.channelId}&key=${environment.G_API_Key}`);
+      (`${environment.BaseUrl}search?part=snippet&maxResults=10&order=${sortActive}&q=${query}&pageToken=${pageToken}&channel_id=${environment.channelId}&key=${environment.G_API_Key}`)
+      .pipe(shareReplay(1));
   }
 }
