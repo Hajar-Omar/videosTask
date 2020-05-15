@@ -11,7 +11,10 @@ export class VideosService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getVideosList(sortActive: string, orderDir: string, pageToken: string = '', query: string = ''): Observable<IVideosList> {
+  /**
+  *@description call search API to search and get videos list depends on some search caiteria
+  */
+  getVideosList(sortActive: string, pageToken: string = '', query: string = ''): Observable<IVideosList> {
     return this.httpClient.get<IVideosList>
       (`${environment.BaseUrl}search?part=snippet&maxResults=10&order=${sortActive}&q=${query}&pageToken=${pageToken}&channel_id=${environment.channelId}&key=${environment.G_API_Key}`);
   }

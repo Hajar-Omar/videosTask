@@ -40,7 +40,7 @@ export class VideosListComponent implements AfterViewInit {
         .pipe(
           startWith({}),
           switchMap(() => {
-            return this.videosService!.getVideosList(this.sort.active, this.sort.direction, this.pageToken, this.keyword);
+            return this.videosService!.getVideosList(this.sort.active, this.pageToken, this.keyword);
           }),
           map(data => {
             // Flip flag to show that loading has finished.
