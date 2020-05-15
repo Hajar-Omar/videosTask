@@ -14,6 +14,20 @@ export class AddHeaderInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return next.handle(req);
+    let authReq: HttpRequest<any>;
+    if (req.url.search('manifest.webmanifest')) {
+      authReq = req.clone({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/manifest+json'
+        })
+      });
+    } else {
+      authReq = req.clone({
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      });
+    }
+    return next.handle(authReq);
   }
 }
