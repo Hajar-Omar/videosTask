@@ -1,1 +1,57 @@
-<p>videos-list works!</p>
+<div class="d-flex justify-content-end">
+    <mat-form-field appearance="standard">
+        <mat-label>Search</mat-label>
+        <input matInput [(ngModel)]="keyword" placeholder="search" (keyup.enter)="LoadVideosList()">
+        <mat-icon matSuffix (click)="LoadVideosList()">search</mat-icon>
+    </mat-form-field>
+</div>
+
+<div class="example-container mat-elevation-z8">
+    <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+            Youtube's videos API rate limit has been reached.
+        </div>
+    </div>
+    <div class="example-table-container">
+
+        <table mat-table [dataSource]="data" class="example-table" matSort matSortActive="title" matSortDisableClear
+            matSortDirection="desc">
+            <!-- thumbnail Column -->
+            <ng-container matColumnDef="thumbnail">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                    <img src="{{row.snippet.thumbnails.default.url}}" alt="">
+                </td>
+            </ng-container>
+
+            <!-- Title Column -->
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+                <td mat-cell *matCellDef="let row">{{row.snippet.title}}</td>
+            </ng-container>
+
+            <!-- publishedAt Column -->
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Publish Date</th>
+                <td mat-cell *matCellDef="let row">{{row.snippet.publishedAt | date}}</td>
+            </ng-container>
+
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row"> <button mat-raised-button
+                        [routerLink]="['/details', row.id.videoId || row.id.playlistId]">Details</button></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button [disabled]="!prevPageToken" (click)="pageToken = prevPageToken; LoadVideosList();">
+            < </button>
+                <button [disabled]="!nextPageToken" (click)="pageToken = nextPageToken; LoadVideosList();">></button>
+    </div>
+    <h4 *ngIf="!data.length" class="d-flex justify-content-center">No Data Found</h4>
+</div>
