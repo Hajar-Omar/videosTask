@@ -3,6 +3,7 @@ import { VideoDetailsService } from 'src/app/shared/services/videoDetails/video-
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDetails } from 'src/app/shared/interfaces/videoDetails';
 import { Subscription } from 'rxjs';
+import { MyVideosService } from 'src/app/shared/services/myVideos/my-videos.service';
 
 @Component({
   selector: 'app-details',
@@ -15,18 +16,31 @@ export class DetailsComponent implements OnInit, OnDestroy {
   likes: string;
   views: string
   duration: string;
-  rate = 3;
+  rate = 0;
 
   subscriptionDetails: Subscription;
   subscriptionContentDetails: Subscription;
   subscriptionStatistics: Subscription;
 
-  constructor(private videoDetailsService: VideoDetailsService, private route: ActivatedRoute, private router: Router) {
+  subscriptionRating: Subscription
+
+  constructor(private videoDetailsService: VideoDetailsService, private route: ActivatedRoute, private router: Router, private MyVideosService: MyVideosService) {
     this.videoId = this.route.snapshot.params['id'];
   }
 
   ngOnInit() {
     this.loadVideoDetails()
+
+    // get default rate, then set its value
+    this.MyVideosService.findThenAddRateOrUpdate('load', { videoId: this.videoId })
+    this.subscriptionRating = this.MyVideosService.rating.subscribe(d => this.rate = d)
+  }
+
+  /**
+  *@description rate selected video or update it if rated before
+  */
+  hitRate() {
+    this.MyVideosService.findThenAddRateOrUpdate('rate', { videoId: this.videoId, rate: this.rate })
   }
 
   /**
@@ -50,5 +64,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.subscriptionDetails.unsubscribe()
     this.subscriptionContentDetails.unsubscribe()
     this.subscriptionStatistics.unsubscribe()
+
+    this.subscriptionRating.unsubscribe()
   }
 }

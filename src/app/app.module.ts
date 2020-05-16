@@ -10,6 +10,9 @@ import { HttpErrorInterceptor } from './shared/interceptors/http-error.intercept
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AddHeaderInterceptor } from './shared/interceptors/http.interceptor';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 @NgModule({
@@ -22,11 +25,14 @@ import { AddHeaderInterceptor } from './shared/interceptors/http.interceptor';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AddHeaderInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    AngularFirestore,
   ],
   bootstrap: [AppComponent]
 })
