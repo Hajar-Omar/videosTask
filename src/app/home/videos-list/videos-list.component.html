@@ -1,3 +1,12 @@
+<div class="d-flex justify-content-start">
+    <mat-form-field appearance="standard">
+        <mat-label>Channel URL</mat-label>
+        <input matInput [(ngModel)]="channelUrl" placeholder="enter channel url">
+        <button mat-raised-button (click)="LoadVideosList()">Go</button>
+    </mat-form-field>
+</div>
+
+
 <div class="d-flex justify-content-end">
     <mat-form-field appearance="standard">
         <mat-label>Search</mat-label>

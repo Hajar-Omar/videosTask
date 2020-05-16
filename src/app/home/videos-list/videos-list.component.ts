@@ -26,6 +26,7 @@ export class VideosListComponent implements AfterViewInit, OnDestroy {
   pageToken: string = ''
   keyword: string = ''
 
+  channelUrl: string = ''
   subscriptionVideosList: Subscription;
 
   constructor(private videosService: VideosService) { }
@@ -44,7 +45,7 @@ export class VideosListComponent implements AfterViewInit, OnDestroy {
         .pipe(
           startWith({}),
           switchMap(() => {
-            return this.videosService!.getVideosList(this.sort.active, this.pageToken, this.keyword);
+            return this.videosService!.getVideosList(this.sort.active, this.pageToken, this.keyword, this.channelUrl);
           }),
           map(data => {
             // Flip flag to show that loading has finished.
