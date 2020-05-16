@@ -47,7 +47,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   */
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 2000,
+      duration: 3000,
     });
   }
 
@@ -62,7 +62,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   *@description add this video to my Favorites
   */
   addToFavorites() {
-    this.favoritesService.add(this.videoId).then(d => this.openSnackBar('Added to your favorites', 'x'))
+    this.favoritesService.add(this.videoId).then(d => {
+      this.isFavorite = true;
+      this.openSnackBar('Added to your favorites', 'x');
+    })
       .catch(e => this.openSnackBar('Try later!', 'x'))
   }
 
@@ -71,6 +74,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     */
   RemoveToFavorites() {
     this.favoritesService.delete(this.videoId)
+    this.isFavorite = false;
     this.openSnackBar('  Removed from your favorites', 'x')
   }
 

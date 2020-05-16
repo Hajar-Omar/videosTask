@@ -1,25 +1,29 @@
-<div *ngIf="details" class="container">
-    <img [src]="details.snippet.thumbnails.maxres.url" alt="">
-    <div class="col-12 d-flex justify-content-between">
+<div *ngIf="!details" class="mt-5 w-100 d-flex justify-content-center">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="details" class="container details">
+    <img class="my-5" [src]="details.snippet.thumbnails.maxres.url" alt="">
+    <div class="col-12 px-lg-5 px-0 pb-3 border-bottom d-flex justify-content-between">
         <h4>{{details.snippet.title}}</h4>
         <button mat-raised-button *ngIf="!isFavorite" (click)="addToFavorites()">Add to favorites</button>
         <button mat-raised-button *ngIf="isFavorite" (click)="RemoveToFavorites()">Remove from favorites</button>
     </div>
-    <div class="col-12 d-flex justify-content-between">
-        <p class="d-flex">Rate Now <bar-rating [(rate)]="rate" [max]="5" (rateChange)="hitRate()"></bar-rating>
+    <div class="col-12 my-3 px-lg-5 px-0 py-3 d-flex border-bottom justify-content-between">
+        <p class="d-flex mb-0"><span class="mr-3">Rate Now </span>
+            <bar-rating [(rate)]="rate" [max]="5" (rateChange)="hitRate()"></bar-rating>
         </p>
-        <p>Duration: {{ duration | slice:2}}</p>
+        <p class="mb-0">Duration: {{ duration | slice:2}}</p>
         <div>
-            <span>
-                <mat-icon matSuffix>remove_red_eye</mat-icon>{{views}}
+            <span class="mr-5">
+                <mat-icon matSuffix>remove_red_eye</mat-icon> {{views}}
             </span>
             <span>
-                <mat-icon matSuffix>thumb_up</mat-icon>{{likes}}
+                <mat-icon matSuffix>thumb_up</mat-icon> {{likes}}
             </span>
         </div>
     </div>
-    <div class="col-12">
-        <p class="text-danger">Published date: {{details.snippet.publishedAt | date}}</p>
-        <p>{{details.snippet.description}}</p>
+    <div class="col-12 px-lg-5 px-0">
+        <p class="text-danger mb-0">Published date: {{details.snippet.publishedAt | date}}</p>
+        <p class="line-2">{{details.snippet.description}}</p>
     </div>
 </div>

@@ -24,7 +24,7 @@ export class FavoritesService {
     this.firestore.collection(this.favoritesCollection, ref => ref.where('videoId', '==', videoId).limit(1)).snapshotChanges()
       .subscribe(x => {
         let docId = x.map(e => e.payload.doc.id)[0];
-        return this.firestore.doc(`${this.favoritesCollection}/${docId}`).delete();
+        this.firestore.doc(`${this.favoritesCollection}/${docId}`).delete();
       })
   }
 

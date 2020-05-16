@@ -1,3 +1,97 @@
+@import "./variables.scss";
+
 .br-default .br-selected:after {
-  color: #dc3545;
+  color: $red;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: $black;
+}
+
+.mat-form-field.mat-focused {
+  .mat-form-field-label {
+    color: $black;
+  }
+  .mat-form-field-ripple {
+    background-color: $black;
+  }
+}
+
+.mat-form-field.search .mat-form-field-flex {
+  border-radius: 30px;
+  padding: 0 15px;
+  background: rgba(243, 243, 243, 0.7490196078431373);
+  .mat-form-field-prefix,
+  .mat-form-field-suffix {
+    cursor: pointer;
+  }
+}
+
+.mat-form-field-underline.ng-tns-c2-1.ng-star-inserted {
+  width: 80%;
+  margin: 0 10%;
+  display: none;
+}
+.navigate {
+  border: none;
+  display: flex;
+  padding: 10px;
+  margin: 10px;
+
+  .mat-icon {
+    font-size: 40px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    color: #777777;
+  }
+}
+
+.table-responsive {
+  table {
+    tr.mat-row:hover {
+      background: #f1f1f1cf;
+    }
+
+    tr.mat-row:hover button.mat-raised-button.mat-button-base {
+      background: $red;
+    }
+    button.mat-raised-button.mat-button-base:hover,
+    button.mat-raised-button.mat-button-base:focus {
+      color: white;
+    }
+    img {
+      min-width: 80px;
+    }
+  }
+
+  @media screen and (max-width: 554px) {
+    overflow-x: scroll;
+  }
+}
+.br-unit.br-active:after {
+  color: $red;
+}
+
+.br {
+  margin: 0 !important;
+}
+
+.details {
+  button.mat-raised-button.mat-button-base {
+    line-height: 18px;
+    &:hover,
+    &:focus {
+      color: white;
+      background-color: $red;
+    }
+    .mat-button-wrapper {
+      white-space: normal;
+      display: block;
+    }
+  }
+}
+.line-2 {
+  line-height: 2;
 }

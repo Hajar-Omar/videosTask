@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  G_API_Key: 'AIzaSyAFqzCt8iTN0H-w2yEFOnOSlL5C2TZqOFc',
+  G_API_Key: 'AIzaSyBZv5d9H8Kjfs_60HJkER8s5JsC3lwnnwE',
   BaseUrl: 'https://www.googleapis.com/youtube/v3/',
   channelId: 'UC_x5XG1OV2P6uZZ5FSM9Ttw',
   firebaseConfig: {
