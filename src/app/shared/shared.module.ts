@@ -7,16 +7,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { BarRatingModule } from 'ngx-bar-rating'
+import { BarRatingModule } from 'ngx-bar-rating';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    MatTableModule, MatSortModule, MatButtonModule, MatIconModule, MatInputModule, MatProgressSpinnerModule, FormsModule, BarRatingModule
+    MatTableModule, MatSortModule, MatButtonModule, MatIconModule, MatInputModule, MatProgressSpinnerModule, FormsModule, BarRatingModule, MatSnackBarModule
   ],
   exports: [
-    MatTableModule, MatSortModule, MatButtonModule, MatIconModule, MatInputModule, MatProgressSpinnerModule, FormsModule, BarRatingModule
+    MatTableModule, MatSortModule, MatButtonModule, MatIconModule, MatInputModule, MatProgressSpinnerModule, FormsModule, BarRatingModule, MatSnackBarModule
   ]
 })
 export class SharedModule { }

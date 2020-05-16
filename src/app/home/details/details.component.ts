@@ -3,7 +3,9 @@ import { VideoDetailsService } from 'src/app/shared/services/videoDetails/video-
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDetails } from 'src/app/shared/interfaces/videoDetails';
 import { Subscription } from 'rxjs';
-import { MyVideosService } from 'src/app/shared/services/myVideos/my-videos.service';
+import { RatingService } from 'src/app/shared/services/rating/rating.service';
+import { FavoritesService } from 'src/app/shared/services/favorites/favorites.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-details',
@@ -18,29 +20,68 @@ export class DetailsComponent implements OnInit, OnDestroy {
   duration: string;
   rate = 0;
 
+  isFavorite: boolean;
+
   subscriptionDetails: Subscription;
   subscriptionContentDetails: Subscription;
   subscriptionStatistics: Subscription;
 
   subscriptionRating: Subscription
 
-  constructor(private videoDetailsService: VideoDetailsService, private route: ActivatedRoute, private router: Router, private MyVideosService: MyVideosService) {
+  constructor(private videoDetailsService: VideoDetailsService, private route: ActivatedRoute, private router: Router,
+    private ratingService: RatingService, private favoritesService: FavoritesService, private _snackBar: MatSnackBar) {
     this.videoId = this.route.snapshot.params['id'];
   }
 
   ngOnInit() {
     this.loadVideoDetails()
+    this.checkOnLoadIfFavorites()
 
     // get default rate, then set its value
-    this.MyVideosService.findThenAddRateOrUpdate('load', { videoId: this.videoId })
-    this.subscriptionRating = this.MyVideosService.rating.subscribe(d => this.rate = d)
+    this.ratingService.findThenAddRateOrUpdate('load', { videoId: this.videoId })
+    this.subscriptionRating = this.ratingService.rating.subscribe(d => this.rate = d)
+  }
+
+  /**
+  *@description show messages
+  */
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   /**
   *@description rate selected video or update it if rated before
   */
   hitRate() {
-    this.MyVideosService.findThenAddRateOrUpdate('rate', { videoId: this.videoId, rate: this.rate })
+    this.ratingService.findThenAddRateOrUpdate('rate', { videoId: this.videoId, rate: this.rate })
+  }
+
+  /**
+  *@description add this video to my Favorites
+  */
+  addToFavorites() {
+    this.favoritesService.add(this.videoId).then(d => this.openSnackBar('Added to your favorites', 'x'))
+      .catch(e => this.openSnackBar('Try later!', 'x'))
+  }
+
+  /**
+    *@description remove this video from my Favorites
+    */
+  RemoveToFavorites() {
+    this.favoritesService.delete(this.videoId)
+    this.openSnackBar('  Removed from your favorites', 'x')
+  }
+
+  /**
+  *@description check if this video on my favorites or not, then show the suitable button either add or remove
+  */
+  checkOnLoadIfFavorites() {
+    this.favoritesService.isInMyFavorites(this.videoId).subscribe(res => {
+      if (res.length) this.isFavorite = true;
+      else this.isFavorite = false;
+    })
   }
 
   /**
@@ -51,7 +92,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
       if (res.items.length) this.details = res.items[0];
       else this.router.navigate(['not-found']);
     })
-    this.subscriptionContentDetails = this.videoDetailsService.getContentDetails(this.videoId).subscribe(res => { if (res.items.length) this.duration = res.items[0].contentDetails.duration })
+    this.subscriptionContentDetails = this.videoDetailsService.getContentDetails(this.videoId).subscribe(res => {
+      if (res.items.length) this.duration = res.items[0].contentDetails.duration
+    })
     this.subscriptionStatistics = this.videoDetailsService.getStatistics(this.videoId).subscribe(res => {
       if (res.items.length) {
         this.likes = res.items[0].statistics.likeCount;

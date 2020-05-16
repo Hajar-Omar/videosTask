@@ -6,10 +6,10 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MyVideosService {
+export class RatingService {
+
 
   readonly videoRatingCollection = 'videoRating'
-  readonly favoritesCollection = 'favorites'
   subscription: Subscription;
 
   rating = new BehaviorSubject<number>(0);
@@ -59,4 +59,5 @@ export class MyVideosService {
       this.subscription.unsubscribe()
     }
   }
+
 }

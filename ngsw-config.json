@@ -32,7 +32,8 @@
       "name": "api-freshness",
       "urls": [
         "https://www.googleapis.com/youtube/v3/**",
-        "https://i.ytimg.com/vi/**"
+        "https://i.ytimg.com/vi/**",
+        "https://firestore.googleapis.com/google.firestore.v1.Firestore/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",

@@ -2,7 +2,8 @@
     <img [src]="details.snippet.thumbnails.maxres.url" alt="">
     <div class="col-12 d-flex justify-content-between">
         <h4>{{details.snippet.title}}</h4>
-        <button mat-raised-button>Add to favourite</button>
+        <button mat-raised-button *ngIf="!isFavorite" (click)="addToFavorites()">Add to favorites</button>
+        <button mat-raised-button *ngIf="isFavorite" (click)="RemoveToFavorites()">Remove from favorites</button>
     </div>
     <div class="col-12 d-flex justify-content-between">
         <p class="d-flex">Rate Now <bar-rating [(rate)]="rate" [max]="5" (rateChange)="hitRate()"></bar-rating>
